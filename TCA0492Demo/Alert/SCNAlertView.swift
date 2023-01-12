@@ -7,20 +7,34 @@
 
 import SwiftUI
 
-struct SCNAlertView<PresentingView: View, Content: View>: View {
+struct SCNAlertView<AlertContent: View>: ViewModifier {
     @Binding var isPresented: Bool
-    let presentingView: PresentingView
-    let content: () -> SCNAlertViewWrapper<Content>
+    let content: () -> SCNAlertViewWrapper<AlertContent>
 
-    var body: some View {
+    func body(content: Content) -> some View {
         ZStack {
             if isPresented {
-                content()
+                self.content()
             }
-            presentingView
+            content
         }
     }
 }
+
+//struct SCNAlertView<PresentingView: View, Content: View>: View {
+//    @Binding var isPresented: Bool
+//    let presentingView: PresentingView
+//    let content: () -> SCNAlertViewWrapper<Content>
+//
+//    var body: some View {
+//        ZStack {
+//            if isPresented {
+//                content()
+//            }
+//            presentingView
+//        }
+//    }
+//}
 
 struct SCNAlertViewWrapper<Content: View>: UIViewControllerRepresentable {
     typealias UIViewControllerType = SCNAlertViewController<Content>

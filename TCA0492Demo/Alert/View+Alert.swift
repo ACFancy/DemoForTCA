@@ -69,11 +69,13 @@ extension View {
                          message: String? = nil,
                          actionsLayout: MessageAlertView.ActionsLayout = .hortical,
                          actions: [MessageAlertView.Action] = []) -> some View {
-        
-        SCNAlertView(isPresented: isPresented, presentingView: self) {
+        modifier(SCNAlertView(isPresented: isPresented, content: {
             SCNAlertViewWrapper(isPresented: isPresented) {
                 MessageAlertView(title: title, message: message, actionsLayout: actionsLayout, actions: actions)
             }
-        }
+        }))
+//        SCNAlertView(isPresented: isPresented, presentingView: self) {
+//
+//        }
     }
 }
