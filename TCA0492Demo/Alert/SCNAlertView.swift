@@ -13,10 +13,10 @@ struct SCNAlertView<AlertContent: View>: ViewModifier {
 
     func body(content: Content) -> some View {
         ZStack {
+            content
             if isPresented {
                 self.content()
             }
-            content
         }
     }
 }
@@ -47,7 +47,7 @@ struct SCNAlertViewWrapper<Content: View>: UIViewControllerRepresentable {
          modalTransitionStyle: UIModalTransitionStyle = .crossDissolve,
          uiStyle: SCNAlertViewController<Content>.SCNUIStyle = .default,
          @ViewBuilder content: () -> Content) {
-        self._isPresented = isPresented
+        _isPresented = isPresented
         self.alertContent = content()
         self.modalTransitionStyle = modalTransitionStyle
         self.uiStyle = uiStyle

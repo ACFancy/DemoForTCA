@@ -44,9 +44,11 @@ struct ContentReducer: ReducerProtocol {
 struct ContentView: View {
 
     let store: StoreOf<ContentReducer>
+    @Binding private var isVisible: Bool
     @ObservedObject var viewStore: ViewStoreOf<ContentReducer>
-    init(store: StoreOf<ContentReducer>) {
+    init(store: StoreOf<ContentReducer>, isVisible: Binding<Bool>) {
         self.store = store
+        _isVisible = isVisible
         viewStore = ViewStoreOf<ContentReducer>(store)
     }
 
@@ -58,17 +60,20 @@ struct ContentView: View {
                     .foregroundColor(.accentColor)
                 Text("Hello, world!")
                 Button("Alert Show") {
-                    viewStore.send(.onAlertShow)
+                    isVisible = true
+//                    viewStore.send(.onAlertShow)
                 }
             }
             .padding()
         }
         .navigationBarHidden(true)
         .navigationViewStyle(.stack)
-        .retakeDocImagesAlert(isPresented: viewStore.binding(\.$isAlertVisible)) {
-            viewStore.send(.onAlertCancel)
+        .retakeDocImagesAlert(isPresented: $isVisible) {
+            isVisible = false
+//            viewStore.send(.onAlertCancel)
         } confirm: {
-            viewStore.send(.onAlertSure)
+            isVisible = false
+//            viewStore.send(.onAlertSure)
         }
     }
 }

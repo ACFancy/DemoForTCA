@@ -9,9 +9,10 @@ import SwiftUI
 
 @main
 struct TCA0492DemoApp: App {
+    @State private var isVisible: Bool = false
     var body: some Scene {
         WindowGroup {
-            ContentView(store: .init(initialState: .init(), reducer: ContentReducer()))
+            ContentView(store: .init(initialState: .init(), reducer: ContentReducer()), isVisible: $isVisible)
         }
     }
 }
